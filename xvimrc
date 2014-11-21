@@ -1,0 +1,152 @@
+" leader
+let mapleader = ";"
+
+" proper search
+set incsearch
+set ignorecase
+set smartcase
+set wrap
+set wrapscan
+
+" no bells
+set noerrorbells
+
+" use system pasteboard
+set pasteboard
+
+" ======= Keys ========
+
+" quicker indentation
+nnoremap > >>
+nnoremap < <<
+nnoremap = == 
+
+" dont loose selection on indenting
+vnoremap > >gv
+vnoremap < <gv
+
+" dot works in visual selection mode!
+vnoremap . :norm.<cr>
+
+" D deletes to the end of the line
+nnoremap D d$
+
+" Y yanks to the end of the line
+nnoremap Y y$
+
+" better line begin (H) and end (L)
+noremap H ^
+noremap L $
+vnoremap L g_
+
+" apply macros with Q
+nnoremap Q @q
+vnoremap Q :norm @q<cr>
+
+" delete word
+map ;c caw
+
+imap jj <Esc>
+map <Enter> o<ESC>
+
+" change cursor position in insert mode
+inoremap <C-h> <left>
+inoremap <C-l> <right>
+inoremap <C-j> <down>
+inoremap <C-k> <up>
+
+" ======= Xcode ========
+
+" show standard editor to close assistant editor
+" map ;sa :xccmd changeToGeniusEditor<CR>
+" map ;aa :xccmd addAssistantEditor<CR>
+" map ;ca :xccmd removeAssistantEditor<CR>
+
+" move between assistant editors
+" nnoremap <C-j> <C-w>j
+" nnoremap <C-k> <C-w>k
+" nnoremap <C-l> <C-w>l
+" nnoremap <C-h> <C-w>h
+
+" debug console
+" map ;d :xcmenucmd Activate Console<CR>
+
+" issue
+map ;jd :xcmenucmd Jump to Definition<CR> " vim cmd:gd
+map ;jn :xcmenucmd Jump to Next Issue<CR>
+map ;ni :xcmenucmd Fix Next Issue<CR>
+map ;jp :xcmenucmd Jump to Previous Issue<CR>
+map ;pi :xcmenucmd Fix Previous Issue<CR>
+
+" placeholder
+map ;np :xccmd selectNextPlaceholder<CR> 
+map ;pp :xccmd selectPreviousPlaceholder<CR>
+
+" show file or symbol
+" map ;rn :xccmd revealInProjectNavigator<CR>
+" map ;rs :xccmd revealInSymbolNavigator<CR>
+
+" show in Finder
+map ;in  :xccmd showInFinder<CR>
+
+" edit all in scope
+" map ;ea :xccmd toggleTokenizedEditing<CR>
+
+" fold
+map ;f :xccmd fold<CR>
+map ;uf :xccmd unfold<CR> 
+map ;ufa :xccmd unfoldAll<CR>
+map ;fm :xccmd foldAllMethods<CR>
+map ;ufm :xccmd unfoldAllMethods<CR>
+map ;fc :xccmd foldAllComments<CR>
+map ;ufc :xccmd unfoldAllComments<CR>
+
+" project
+map ;R :run<CR>
+map ;S :xcmenucmd Stop<CR>
+map ;B :xcmenucmd Build<CR>
+map ;C :xcmenucmd Clean<CR>
+
+" search word 
+map ;s viw:xccmd findSelectedTextInWorkspace<CR>
+
+" refactor word
+map ;r vim:xccmd refactorRename<CR>
+
+" git commands
+" map ;sc :xccmd commitCommand<CR>
+
+" open Documentation and API Reference    
+" map ;doc :xccmd showDeveloperDocumentation<CR>
+
+" show quick help for current word
+map ;h :xhelp<CR>
+
+" search document for text cursor points to.
+" map ;sh :xccmd searchDocumentationForSelectedText<CR>
+
+" snapshot
+" map ;cs  :xccmd createSnapshot<CR>
+" map ;rs  :xccmd restoreSnapshot<CR>
+
+" quick open
+map <C-p> :xccmd openQuickly<CR>
+
+" navigator
+nnoremap <C-n> :xccmd toggleNavigatorsVisibility<CR>
+
+" comments
+nnoremap gc :xccmd commentAndUncommentCurrentLines<CR>
+vnoremap gc :xccmd commentAndUncommentCurrentLines<CR>
+
+" ======= Miscellaneous =======
+
+" remove whitespace
+command! KillWhitespace :normal :%s/\s\+$//g<cr>
+nnoremap <silent> <leader>kw :KillWhitespace<cr>:nohlsearch<cr>
+
+" select whole buffer
+nnoremap <silent> <leader>va ggVG
+
+" yank whole buffer
+nnoremap <leader>ya :let yank_view=winsaveview()<cr>ggyG<cr>:call winrestview(yank_view)<cr>

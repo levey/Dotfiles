@@ -1,0 +1,236 @@
+[alias]
+  st = status
+  cln = clone
+
+  co = checkout
+  coc = checkout .
+  cob = checkout -b
+  cobf = "!f() { git brd $1; git cob $1; }; f"
+  col = checkout HEAD~1
+
+  ours = checkout --ours
+  theirs = checkout --theirs
+  aours = "!f() { (git reset $* >/dev/null); git ours $* && git add $*; }; f"
+  atheirs = "!f() { (git reset $* >/dev/null); git theirs $* && git add $*; }; f"
+
+  c = commit
+  ca = commit -a
+  cmae = commit --amend --no-edit
+  cma = commit --amend
+  cm = commit -m
+  cmv = commit -v -m
+  acm = !git aa && git cm
+  acam = !git aa && git cam
+  acame = !git aa && git came
+  acmu = !git aa && git cmu
+  ac = !git acm
+
+  cl = clean
+  cldf = clean -df
+  clxdf = clean -xdf
+
+  rvt = revert
+  rvtn = revert -n
+
+  rs = reset
+  rsa = reset HEAD
+  rsh = !git stash && git reset --hard
+  rshh = !git stash && git reset --hard HEAD
+  undo = reset HEAD^1
+  undoh = !git stash && git reset HEAD^1 --hard
+  unstage = reset HEAD
+  us = reset HEAD
+
+  tags = tag -l
+  removealltags = "!f() { git tag -d `git tag | grep -E '.'`; }; f"
+  psremovealltags = "!f() { git ls-remote --tags origin | awk '{print \":\"$2}' | grep \"$i\" | grep -v '{}' | xargs git push origin; }; f"
+
+  s = show --color
+  sf = show --color --name-only
+  sfp = show --pretty="format:" --name-only
+
+  d = diff --color
+  dw = diff --color -w
+  ds = diff --color --staged
+  dsf = diff --color --staged --name-only
+  df = diff --color --name-only
+
+  f = fetch
+  fa = fetch --all
+  fo = fetch origin
+  fp = fetch -p
+
+  m = merge
+  ms = merge --squash
+  md = merge development
+  undom = merge --abort
+  unm = reset --merge
+
+  ps = push
+  psu = push -u
+  psf = push -f
+  pso = push origin
+  psso = push --set-upstream origin
+  psom = push origin master
+  psod = push origin development
+  psfom = push -f origin master
+  pssm = push --recurse-submodules=on-demand
+  psremoveallbranches = "!f() { git push $1 `git brar $1 | grep -v master | xargs -I {} echo :{}`; }; f"
+
+  pl = pull
+  plo = pull origin
+  plom = pull origin master
+  plod = pull origin development
+  plr = pull --rebase
+  plro = pull --rebase origin
+  plrom = pull --rebase orogin master
+  uo = "!f() { git smui; git plo $1; }; f"
+  ua = "!f() { git smui; git pl; }; f"
+  u = "!f() { git smui; git pl; }; f"
+
+  unmerged = !git ls-files --unmerged | cut -f2 | uniq
+  untracked = ls-files --other --exclude-standard
+  staged = ls-files --staged
+  modified = ls-files --modified
+  deleted = ls-files --deleted
+  gitignored = ls-files -o -i --exclude-standard
+  sig = !git ls-files -v | grep "^[[:lower:]]"
+
+  ig = update-index --assume-unchanged
+  uig = update-index --no-assume-unchanged
+  ignore = update-index --assume-unchanged
+  ignored = !git sig
+
+  gitignore-untracked = !git gitignore `git untracked`
+  ig-untracked = !git ignore `git untracked`
+  gitignore = !cd `git root` && touch .gitignore
+
+  lp = log -p --color
+  lf = log -p --name-only --color
+  lnom = log --color --no-merges
+  lg = log --graph --pretty=format:'%Cred%h%Creset %s %Cgreen(%cr) %Cblue%an <%ae>%Creset' --abbrev-commit --date=relative
+  lg2 = !source ~/.githelpers && pretty_git_log
+  lgp = !git lg -p --color
+  lgf = !git lg -p --name-only --color
+  l = log --pretty=format:'%Cred%h%Creset %s %Cgreen(%cr) %Cblue%an <%ae>%Creset' --abbrev-commit --date=relative
+  lc = "!f() { git log $* | grep '^commit ' | cut -f 2 -d ' '; }; f"
+
+  head = !git l -1
+  h = !git head
+  hp = !source ~/.githelpers && show_git_head
+  r = !git l -20
+  ra = !git r --all
+
+  sh = stash
+  shs = stash save
+  shi = stash --keep-index
+  shsu = stash save -u
+  shu = stash -u
+  sha = stash apply
+  shl = stash list
+  shc = stash clear
+
+  chp = cherry-pick
+  chpc = cherry-pick --continue
+  chpq = cherry-pick --quit
+  chpa = cherry-pick --abort
+
+  aa = add -A
+  a = add
+  ap = add -p
+  resolve-unmerged = !git add `git unmerged`
+  add-untracked = !git add `git untracked`
+  as = !git diff -w --no-color | git apply --cached
+  rs = !(git resa && git as && git co . && git resa) &>/dev/null
+  am3 = am -3
+  amr = am --resolved
+  amc = am --continue
+  ama = am --abort
+  ams = am --skip
+
+  fm = format-patch
+
+  rmf = rm -rf
+  rmc = rm --cached
+
+  rb = rebase
+  rbi = rebase -i
+  rbc = rebase --continue
+  rba = rebase --abort
+  rbs = rebase --skip
+
+  mt = mergetool
+
+  vm = !vim `git unmerged`
+  vmo = !vim `git modified`
+  vt = !vim `git untracked`
+
+  current = rev-parse --abbrev-ref HEAD
+  br = branch
+  brt = branch --track
+  brup = branch --set-upstream
+  brr = branch -r
+  bra = branch -a
+  brar = "!f() { git bra | grep remotes/$1/ | cut -f 3 -d '/'; }; f"
+  brd = branch -D
+  brddd =  "!f() { git branch | grep -v \\* | xargs git branch -D; }; f"
+  brc = branch --contains
+  brcommits = "!f() { git lc --branches=$1* }; f"
+  brdiff = !source ~/.githelpers && diff_branches
+  brfdiff = !source ~/.githelpers && diff_branches_show_files
+
+  rem = remote
+  rema = remote add
+  renrn = remote rename
+  remr = remote rm
+  remv = remote -v
+  remotes = remote -v
+  remu = remote set-url
+  remuo = remote set-url origin
+
+  sm = submodule
+  smst = submodule --status
+  sma = submodule add
+  smu = submodule update
+  smui = submodule update --init
+  smuir = submodule update --init --recursive
+  sms = submodule sync
+  smdi = submodule deinit
+  smrm = "!f(){ git rm --cached \"$1\";rm -r \"$1\";git config -f .gitmodules --remove-section \"submodule.$1\";git config -f .git/config --remove-section \"submodule.$1\";git add .gitmodules; }; f"
+    
+  bl = blame
+
+  gcp = gc --prune=now
+  gca = gc --aggressive
+  gcap = gc --aggressive --prune=now
+
+    # git change-commits GIT_COMMITTER_NAME "old name" "new name"
+  change-commits = "!f() { VAR=$1; OLD=$2; NEW=$3; shift 3; git filter-branch --force --env-filter \"if [[ $`echo $VAR` = \\\"$OLD\\\" ]]; then export $VAR=\\\"$NEW\\\"; fi\" $@; }; f"
+    # from https://help.github.com/articles/remove-sensitive-data
+  remove-file = "!f() { git filter-branch -f --index-filter \"git rm --cached --ignore-unmatch $1\" --prune-empty --tag-name-filter cat -- --all; }; f"
+
+  rf = reflog
+  rfe = reflog expire --expire=now --all
+
+  pr = prune
+  prm = !git rfe && git gcp
+
+  cfg = config -e --global
+  cfgl = config -e
+
+[color]
+  interactive = false 
+  branch = true
+  status = true
+
+[core]
+  pager = less -iRS
+  editor = vim
+
+[pager]
+  diff = true
+  status = false
+  show-branch = true
+    
+[push]
+	default = simple
