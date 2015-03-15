@@ -32,14 +32,13 @@
   rvt = revert
   rvtn = revert -n
 
-  rs = reset
-  rsa = reset HEAD
+  r = reset
+  ra = reset HEAD
   rsh = !git stash && git reset --hard
   rshh = !git stash && git reset --hard HEAD
   undo = reset HEAD^1
   undoh = !git stash && git reset HEAD^1 --hard
   unstage = reset HEAD
-  us = reset HEAD
 
   tags = tag -l
   removealltags = "!f() { git tag -d `git tag | grep -E '.'`; }; f"
@@ -62,7 +61,6 @@
 
   m = merge
   ms = merge --squash
-  md = merge development
   undom = merge --abort
   unm = reset --merge
 
@@ -72,7 +70,6 @@
   pso = push origin
   psso = push --set-upstream origin
   psom = push origin master
-  psod = push origin development
   psfom = push -f origin master
   pssm = push --recurse-submodules=on-demand
   psremoveallbranches = "!f() { git push $1 `git brar $1 | grep -v master | xargs -I {} echo :{}`; }; f"
@@ -80,7 +77,6 @@
   pl = pull
   plo = pull origin
   plom = pull origin master
-  plod = pull origin development
   plr = pull --rebase
   plro = pull --rebase origin
   plrom = pull --rebase orogin master
@@ -108,18 +104,16 @@
   lp = log -p --color
   lf = log -p --name-only --color
   lnom = log --color --no-merges
-  lg = log --graph --pretty=format:'%Cred%h%Creset %s %Cgreen(%cr) %Cblue%an <%ae>%Creset' --abbrev-commit --date=relative
+  lg = log --graph --pretty=format:'%Cred%h%Creset %s %Cgreen(%cr) %Cblue<%an>%Creset' --abbrev-commit --date=relative
   lg2 = !source ~/.githelpers && pretty_git_log
   lgp = !git lg -p --color
   lgf = !git lg -p --name-only --color
-  l = log --pretty=format:'%Cred%h%Creset %s %Cgreen(%cr) %Cblue%an <%ae>%Creset' --abbrev-commit --date=relative
+  l = log --pretty=format:'%Cred%h%Creset %s %Cgreen(%cr) %Cblue<%an>%Creset' --abbrev-commit --date=relative
   lc = "!f() { git log $* | grep '^commit ' | cut -f 2 -d ' '; }; f"
 
   head = !git l -1
   h = !git head
   hp = !source ~/.githelpers && show_git_head
-  r = !git l -20
-  ra = !git r --all
 
   sh = stash
   shs = stash save
@@ -224,13 +218,26 @@
   status = true
 
 [core]
-  pager = less -iRS
+  pager = less -+X -+F
+  excludesfile = /Users/Levey/.gitignore_global
   editor = vim
 
 [pager]
   diff = true
   status = false
   show-branch = true
-    
+
+[user]
+  name = Levey
+  email = levey.zhu@bindo.com 
+
 [push]
-	default = simple
+  default = simple
+[difftool "sourcetree"]
+  cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+  path = 
+[mergetool "sourcetree"]
+  cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+  trustExitCode = true
+[log]
+  date = local
