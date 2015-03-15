@@ -219,17 +219,13 @@
 
 [core]
   pager = less -+X -+F
-  excludesfile = /Users/Levey/.gitignore_global
+  excludesfile = ~/.gitignore_global
   editor = vim
 
 [pager]
   diff = true
   status = false
   show-branch = true
-
-[user]
-  name = Levey
-  email = levey.zhu@bindo.com 
 
 [push]
   default = simple
